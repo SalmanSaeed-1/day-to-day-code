@@ -2,7 +2,7 @@
 #include <ctime>
 #include <cstdlib>
 using namespace std;
-
+ 
 /* -------------------- Data structures -------------------- */
 struct Snake {
     int head, tail;
