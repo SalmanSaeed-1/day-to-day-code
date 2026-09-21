@@ -29,6 +29,7 @@ int main(){
             UniverseData[i][j].s_number = 0;
             UniverseData[i][j].x_position = j + 1;
             UniverseData[i][j].y_position = i + 1;
+            UniverseData[i][j].is_snake = false;
 
             char choice;
 
@@ -39,9 +40,6 @@ int main(){
                 snake_count++;
                 UniverseData[i][j].s_number = snake_count;
                 UniverseData[i][j].is_snake = true;
-            }
-            else{
-                UniverseData[i][j].is_snake = false;
             }
         }
     }
@@ -62,7 +60,8 @@ int main(){
         cout<<"Enter new number of columns : ";
         cin>>n_columns;
 
-        if(n_rows > rows && n_columns > columns){
+        if(n_rows >= rows && n_columns >= columns &&
+           (n_rows > rows || n_columns > columns)){
 
             UniverseCoordinate** newUniverseData = new UniverseCoordinate*[n_rows];
 
@@ -82,6 +81,7 @@ int main(){
 
             for(int i=0 ; i<rows ; i++){
                 for(int j=0 ; j<columns ; j++){
+
                     newUniverseData[i][j] = UniverseData[i][j];
                 }
             }
@@ -94,26 +94,11 @@ int main(){
 
             UniverseData = newUniverseData;
 
-            for(int i=rows ; i<n_rows ; i++){
+            for(int i=0 ; i<n_rows ; i++){
                 for(int j=0 ; j<n_columns ; j++){
 
-                    char choice;
+                    if(i >= rows || j >= columns){
 
-                    cout<<"Is there a snake at ("<<j + 1<<" , "<<i + 1<<") ? (y/n) : ";
-                    cin>>choice;
-
-                    if(choice == 'y' || choice == 'Y'){
-                        snake_count++;
-                        UniverseData[i][j].s_number = snake_count;
-                        UniverseData[i][j].is_snake = true;
-                    }
-                }
-            }
-
-            for(int i=0 ; i<rows ; i++){
-                for(int j=columns ; j<n_columns ; j++){
-
-                    if(i < rows){
                         char choice;
 
                         cout<<"Is there a snake at ("<<j + 1<<" , "<<i + 1<<") ? (y/n) : ";
