@@ -1,87 +1,73 @@
-#include <iostream>
+#include<iostream>
+
 using namespace std;
 
-#define MAX 5 // Small size so we can easily test overflow
+#define max 5
+int front = -1;
+int rear = -1;
+int arr[max];
 
-class Queue {
-    int arr[MAX];
-    int frontIndex;
-    int rearIndex;
-
-public:
-    // Constructor initializes an empty queue
-    Queue() {
-        frontIndex = -1;
-        rearIndex = -1;
-    }
-
-    // ENQUEUE: Add an element to the back (rear)
-    void enqueue(int val) {
-        // 1. Check for Overflow
-        if (rearIndex == MAX - 1) {
-            cout << "Queue Overflow! Cannot enqueue " << val << endl;
+class queue{
+    public:
+    void enqueue(int val){
+        if(rear == max - 1){
+            cout<<"overflow"<<endl;
             return;
         }
-        
-        // 2. If it's the very first element, we must move frontIndex to 0
-        if (frontIndex == -1) {
-            frontIndex = 0;
+
+        if(front == -1){
+            front = 0;
         }
-        
-        // 3. Move rear forward and insert the value
-        rearIndex++;
-        arr[rearIndex] = val;
+
+        rear++;
+        arr[rear] = val;
     }
 
-    // DEQUEUE: Remove an element from the front
-    void dequeue() {
-        // 1. Check for Underflow
-        if (frontIndex == -1 || frontIndex > rearIndex) {
-            cout << "Queue Underflow! Queue is already empty." << endl;
+    void dequeue(){
+        if(front == -1 || front>rear){
+            cout<<"queue is empty";
             return;
         }
-        
-        // 2. Move frontIndex forward to "delete" the element
-        frontIndex++;
-        
-        // 3. OPTIMIZATION: If the queue is now completely empty, reset indices 
-        // back to -1. This helps prevent the array from filling up with "dead space".
-        if (frontIndex > rearIndex) {
-            frontIndex = -1;
-            rearIndex = -1;
+
+        front++;
+
+        if(front>rear){
+            front = -1;
+            rear = -1;
         }
+        
     }
 
-    // FRONT: View the element at the front of the line
-    int front() {
-        if (frontIndex == -1 || frontIndex > rearIndex) {
-            cout << "Queue is empty!" << endl;
+    int get_front(){
+        if(front == -1 || front>rear){
+            cout<<"queue is empty";
             return -1;
         }
-        return arr[frontIndex];
+        return arr[front];
+
     }
 
-    // ISEMPTY: Check if the queue has any active elements
-    bool isEmpty() {
-        return (frontIndex == -1 || frontIndex > rearIndex);
+    bool isempty(){
+        return (front == -1 || front > rear);
     }
 
-    // SHOW: Print the active line from front to back
-    void show() {
-        if (isEmpty()) {
+void show() {
+        if (isempty()) {
             cout << "Queue is empty!" << endl;
             return;
         }
         cout << "Queue (Front to Rear): ";
-        for (int i = frontIndex; i <= rearIndex; i++) {
+        for (int i = front; i <= rear; i++) {
             cout << arr[i] << " ";
         }
         cout << endl;
     }
+
+
 };
 
-int main() {
-    Queue q;
+int main(){
+    queue q;
 
     // 1. Happy Path Test
     q.enqueue(10);
@@ -89,7 +75,7 @@ int main() {
     q.enqueue(30);
     q.show(); // Expected: 10 20 30
 
-    cout << "Front is: " << q.front() << endl; // Expected: 10
+    cout << "Front is: " << q.get_front() << endl; // Expected: 10
 
     q.dequeue();
     cout << "After 1 dequeue:" << endl;
@@ -101,6 +87,7 @@ int main() {
     q.enqueue(60); // This should trigger Overflow because MAX is 5
     
     q.show(); // Expected: 20 30 40 50
-    
+
+
     return 0;
 }
