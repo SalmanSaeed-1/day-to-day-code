@@ -160,6 +160,22 @@ class doubly_linked_list{
         delete current;
     }
 
+    void reverse(){
+        Node* current = head;
+
+        while(current!=NULL){
+            Node* nextnode = current->next;
+
+            current->next = current->prev;
+            current->prev = nextnode;
+
+            current = nextnode;
+        }
+
+        Node* temp = head;
+        head = tail;
+        tail = temp;
+    }
 
 
     void display_list_forward(){

@@ -147,6 +147,24 @@ class Linked_list{
     }
 
 
+    void reverse(){
+        Node* current = head;
+        Node* previous = NULL;
+
+        while(current!=NULL){
+            Node* nextnode = current->next;
+
+            current->next = previous;
+
+            previous = current;
+            current = nextnode;
+        }
+
+        tail  = head;
+        head = previous;
+    }
+
+
     void display(){
         Node* current = head;
         while(current != NULL){
